@@ -1,0 +1,87 @@
+import 'package:flutter/material.dart';
+import 'dart:math';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Dices',
+      home: DiceRoller(),
+    );
+  }
+}
+
+class DiceRoller extends StatefulWidget {
+  @override
+  _DiceRollerState createState() => _DiceRollerState();
+}
+
+class _DiceRollerState extends State<DiceRoller> {
+  int die1 = 1;
+  int die2 = 1;
+  final Random random = Random();
+
+  void rollDice() {
+    setState(() {
+      die1 = random.nextInt(6) + 1; // Generate a random number from 1 to 6
+      die2 = random.nextInt(6) + 1; // Generate a random number from 1 to 6
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Dices'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                DiceSquare(die: die1),
+                SizedBox(width: 20),
+                DiceSquare(die: die2),
+              ],
+            ),
+            SizedBox(height: 40),
+            ElevatedButton(
+              onPressed: rollDice,
+              child: Text('Throw'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class DiceSquare extends StatelessWidget {
+  final int die;
+
+  DiceSquare({required this.die});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 100,
+      height: 100,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(color: Colors.black, width: 2),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      alignment: Alignment.center,
+      child: Text(
+        '$die',
+        style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+}
